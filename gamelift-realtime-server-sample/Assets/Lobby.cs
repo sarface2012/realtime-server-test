@@ -74,26 +74,30 @@ public class Lobby : MonoBehaviour
         return response.GameSessions;
   }
 
-  public string findByMostUserRoomSession(List<GameSession> sessions)
+  public (string, string) findByMostUserRoomSession(List<GameSession> sessions)
   {
     string sessionId = "";
+    string roomName = "";
     int playerCount = 0;
     for (int i = 0; i < sessions.Count; i++)
     {
-      UnityEngine.Debug.Log(sessions[i].GameSessionId);
-      if (sessions[i].CurrentPlayerSessionCount > playerCount)
+      UnityEngine.Debug.Log("GameSessionID: " + sessions[i].GameSessionId);
+      UnityEngine.Debug.Log("Name: " + sessions[i].Name);
+      if (sessions[i].CurrentPlayerSessionCount >= playerCount)
       {
         sessionId = sessions[i].GameSessionId;
+        roomName  = sessions[i].Name;
         playerCount = sessions[i].CurrentPlayerSessionCount;
       }
     }
 
-    return sessionId;
+    return (sessionId, roomName);
   }
 
   public string JoinRoom(string sessionId)
   {
     UnityEngine.Debug.Log("CreatePlayerSession Start!");
+    UnityEngine.Debug.Log("SessionID:" + sessionId);
 
     var response = gameLiftClient.CreatePlayerSession(new CreatePlayerSessionRequest
     {

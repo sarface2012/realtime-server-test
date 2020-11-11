@@ -33,11 +33,12 @@ public class LobbyUI : MonoBehaviour
         Debug.Log("Search Button click!");
 
         var sessions = lobby.SearchRooms();
-        var session  = lobby.findByMostUserRoomSession(sessions);
+        var (session, roomName)  = lobby.findByMostUserRoomSession(sessions);
         
         Debug.Log("RoomSession" + session);
         var pSession = lobby.JoinRoom(session);
 
+        RoomNameText.text  = "RoomName: " + roomName.ToString();
         PlayerSessionIDText.text = "PlayerSessionID: " + pSession.ToString();
     }
 
